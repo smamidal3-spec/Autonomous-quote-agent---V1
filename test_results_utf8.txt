@@ -1,0 +1,38 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.14.3, pytest-9.0.2, pluggy-1.6.0 -- C:\Python314\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\mamid\vibe\quote_agents
+plugins: anyio-4.12.1, langsmith-0.7.12
+collecting ... collected 5 items
+
+tests/test_pipeline.py::test_pipeline_loaded PASSED                      [ 20%]
+tests/test_pipeline.py::test_high_risk_never_defaults_to_low PASSED      [ 40%]
+tests/test_pipeline.py::test_premium_sensitive_advises_discount PASSED   [ 60%]
+tests/test_pipeline.py::test_auto_approve_logic PASSED                   [ 80%]
+tests/test_pipeline.py::test_escalation_protocol FAILED                  [100%]
+
+================================== FAILURES ===================================
+__________________________ test_escalation_protocol ___________________________
+
+synthetic_data = [{'Agent_Num': 10.0, 'Agent_Type': 'EA', 'Annual_Miles_Range': '<= 7.5 K', 'Coverage': 'Balanced', ...}, {'Agent_Num':...ed', ...}, {'Agent_Num': 10.0, 'Agent_Type': 'EA', 'Annual_Miles_Range': '<= 7.5 K', 'Coverage': 'Balanced', ...}, ...]
+
+    def test_escalation_protocol(synthetic_data):
+        """
+        Ensure the escalation boolean is True whenever we hit the guarantee case.
+        """
+        for profile in synthetic_data:
+            if "Escalation_Guarantee" in profile["Profile_Name"]:
+                quote = QuoteInput(**profile)
+                result = pipeline.execute(quote)
+    
+>               assert result.escalation_status.escalation_required == True, \
+                    f"{profile['Profile_Name']} failed to trigger human escalation."
+E               AssertionError: Escalation_Guarantee_1 failed to trigger human escalation.
+E               assert False == True
+E                +  where False = EscalationOutput(escalation_required=False, reason='None').escalation_required
+E                +    where EscalationOutput(escalation_required=False, reason='None') = PipelineOutput(quote_id='f8e58b7e-6fbb-4132-a9cd-96c8a80f3f4b', risk_evaluation=RiskOutput(risk_score=41.7, risk_tier='MEDIUM', risk_explanation='Classified as MEDIUM risk primarily due to Prev_Accidents.'), conversion_prediction=ConversionOutput(conversion_probability=99.97, conversion_band='HIGH', top_conversion_drivers=['Policy_Bind_DT', 'Q_Creation_DT', 'Driver_Age']), premium_advice=PremiumOutput(premium_issue=True, recommended_premium_range=[2450.0, 2975.0], recommendation_reason='Premium above expected range for salary'), final_decision=DecisionOutput(decision='FOLLOW_UP_AGENT', confidence_score=0.75, decision_explanation='Borderline conversion or premium adjustment needed. Agent intervention required.', detailed_explanation=RoutingExplanation(risk_factor='Risk Tier is MEDIUM', conversion_driver='Conversion Probability is 99.97%', premium_issue='Premium issue detected')), escalation_status=EscalationOutput(escalation_required=False, reason='None')).escalation_status
+
+tests\test_pipeline.py:73: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_pipeline.py::test_escalation_protocol - AssertionError: Esc...
+========================= 1 failed, 4 passed in 3.26s =========================
