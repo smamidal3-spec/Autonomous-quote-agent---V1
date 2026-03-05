@@ -38,57 +38,58 @@ def get_selectbox_index(key, options_list):
         return opts.index(val)
     return 0
 
-# --- All 23 Feature Input Fields ---
-# Numeric inputs
-user_input['Agent_Num'] = st.sidebar.number_input("Agent_Num", value=get_param("Agent_Num", 10.0, float))
-user_input['HH_Vehicles'] = st.sidebar.number_input("HH_Vehicles", value=get_param("HH_Vehicles", 1.0, float))
-user_input['HH_Drivers'] = st.sidebar.number_input("HH_Drivers", value=get_param("HH_Drivers", 1.0, float))
-user_input['Driver_Age'] = st.sidebar.number_input("Driver_Age", value=get_param("Driver_Age", 30.0, float))
-user_input['Driving_Exp'] = st.sidebar.number_input("Driving_Exp", value=get_param("Driving_Exp", 5.0, float))
-user_input['Prev_Accidents'] = st.sidebar.number_input("Prev_Accidents", value=get_param("Prev_Accidents", 0.0, float))
-user_input['Prev_Citations'] = st.sidebar.number_input("Prev_Citations", value=get_param("Prev_Citations", 0.0, float))
-user_input['Quoted_Premium'] = st.sidebar.number_input("Quoted_Premium", value=get_param("Quoted_Premium", 1000.0, float))
+# --- All 23 Feature Input Fields (Full Human-Readable Labels) ---
+
+# Numeric inputs (Integer for all except Driver Age)
+user_input['Agent_Num'] = int(st.sidebar.number_input("Agent Number", value=get_param("Agent_Num", 10, int), step=1, format="%d"))
+user_input['HH_Vehicles'] = int(st.sidebar.number_input("Household Vehicles", value=get_param("HH_Vehicles", 1, int), step=1, format="%d"))
+user_input['HH_Drivers'] = int(st.sidebar.number_input("Household Drivers", value=get_param("HH_Drivers", 1, int), step=1, format="%d"))
+user_input['Driver_Age'] = float(st.sidebar.number_input("Driver Age", value=get_param("Driver_Age", 30.0, float), step=0.5, format="%.1f"))
+user_input['Driving_Exp'] = int(st.sidebar.number_input("Driving Experience (Years)", value=get_param("Driving_Exp", 5, int), step=1, format="%d"))
+user_input['Prev_Accidents'] = int(st.sidebar.number_input("Previous Accidents", value=get_param("Prev_Accidents", 0, int), step=1, format="%d"))
+user_input['Prev_Citations'] = int(st.sidebar.number_input("Previous Citations", value=get_param("Prev_Citations", 0, int), step=1, format="%d"))
+user_input['Quoted_Premium'] = int(st.sidebar.number_input("Quoted Premium ($)", value=get_param("Quoted_Premium", 1000, int), step=50, format="%d"))
 
 # Text date inputs
-user_input['Q_Creation_DT'] = st.sidebar.text_input("Q_Creation_DT", value=get_param("Q_Creation_DT", "2019/10/01", str))
-user_input['Q_Valid_DT'] = st.sidebar.text_input("Q_Valid_DT", value=get_param("Q_Valid_DT", "2023/12/31", str))
-user_input['Policy_Bind_DT'] = st.sidebar.text_input("Policy_Bind_DT", value=get_param("Policy_Bind_DT", "2019/10/02", str))
+user_input['Q_Creation_DT'] = st.sidebar.text_input("Quote Creation Date", value=get_param("Q_Creation_DT", "2019/10/01", str))
+user_input['Q_Valid_DT'] = st.sidebar.text_input("Quote Valid Until Date", value=get_param("Q_Valid_DT", "2023/12/31", str))
+user_input['Policy_Bind_DT'] = st.sidebar.text_input("Policy Bind Date", value=get_param("Policy_Bind_DT", "2019/10/02", str))
 
 # Categorical selectbox inputs
 agent_opts = list(encoders['Agent_Type'].classes_) if 'Agent_Type' in encoders else ["EA", "IA"]
-user_input['Agent_Type'] = st.sidebar.selectbox("Agent_Type", agent_opts, index=get_selectbox_index("Agent_Type", agent_opts))
+user_input['Agent_Type'] = st.sidebar.selectbox("Agent Type", agent_opts, index=get_selectbox_index("Agent_Type", agent_opts))
 
 region_opts = list(encoders['Region'].classes_) if 'Region' in encoders else ["A", "B", "C"]
 user_input['Region'] = st.sidebar.selectbox("Region", region_opts, index=get_selectbox_index("Region", region_opts))
 
 policy_opts = list(encoders['Policy_Type'].classes_) if 'Policy_Type' in encoders else ["Truck", "Sedan"]
-user_input['Policy_Type'] = st.sidebar.selectbox("Policy_Type", policy_opts, index=get_selectbox_index("Policy_Type", policy_opts))
+user_input['Policy_Type'] = st.sidebar.selectbox("Policy Type", policy_opts, index=get_selectbox_index("Policy_Type", policy_opts))
 
 gender_opts = list(encoders['Gender'].classes_) if 'Gender' in encoders else ["Male", "Female"]
 user_input['Gender'] = st.sidebar.selectbox("Gender", gender_opts, index=get_selectbox_index("Gender", gender_opts))
 
 marital_opts = list(encoders['Marital_Status'].classes_) if 'Marital_Status' in encoders else ["Married", "Single"]
-user_input['Marital_Status'] = st.sidebar.selectbox("Marital_Status", marital_opts, index=get_selectbox_index("Marital_Status", marital_opts))
+user_input['Marital_Status'] = st.sidebar.selectbox("Marital Status", marital_opts, index=get_selectbox_index("Marital_Status", marital_opts))
 
 edu_opts = list(encoders['Education'].classes_) if 'Education' in encoders else ["Bachelors", "Masters"]
-user_input['Education'] = st.sidebar.selectbox("Education", edu_opts, index=get_selectbox_index("Education", edu_opts))
+user_input['Education'] = st.sidebar.selectbox("Education Level", edu_opts, index=get_selectbox_index("Education", edu_opts))
 
 sal_opts = list(encoders['Sal_Range'].classes_) if 'Sal_Range' in encoders else ["<= $ 25 K", "50 K - 75 K"]
-user_input['Sal_Range'] = st.sidebar.selectbox("Sal_Range", sal_opts, index=get_selectbox_index("Sal_Range", sal_opts))
+user_input['Sal_Range'] = st.sidebar.selectbox("Salary Range", sal_opts, index=get_selectbox_index("Sal_Range", sal_opts))
 
 cov_opts = list(encoders['Coverage'].classes_) if 'Coverage' in encoders else ["Basic", "Balanced", "Comprehensive"]
-user_input['Coverage'] = st.sidebar.selectbox("Coverage", cov_opts, index=get_selectbox_index("Coverage", cov_opts))
+user_input['Coverage'] = st.sidebar.selectbox("Coverage Type", cov_opts, index=get_selectbox_index("Coverage", cov_opts))
 
 veh_opts = list(encoders['Veh_Usage'].classes_) if 'Veh_Usage' in encoders else ["Pleasure", "Business"]
-user_input['Veh_Usage'] = st.sidebar.selectbox("Veh_Usage", veh_opts, index=get_selectbox_index("Veh_Usage", veh_opts))
+user_input['Veh_Usage'] = st.sidebar.selectbox("Vehicle Usage", veh_opts, index=get_selectbox_index("Veh_Usage", veh_opts))
 
 miles_opts = list(encoders['Annual_Miles_Range'].classes_) if 'Annual_Miles_Range' in encoders else ["<= 7.5 K", "> 15 K"]
-user_input['Annual_Miles_Range'] = st.sidebar.selectbox("Annual_Miles_Range", miles_opts, index=get_selectbox_index("Annual_Miles_Range", miles_opts))
+user_input['Annual_Miles_Range'] = st.sidebar.selectbox("Annual Miles Range", miles_opts, index=get_selectbox_index("Annual_Miles_Range", miles_opts))
 
 vcost_opts = list(encoders['Vehicl_Cost_Range'].classes_) if 'Vehicl_Cost_Range' in encoders else ["10 K - 20 K"]
-user_input['Vehicl_Cost_Range'] = st.sidebar.selectbox("Vehicl_Cost_Range", vcost_opts, index=get_selectbox_index("Vehicl_Cost_Range", vcost_opts))
+user_input['Vehicl_Cost_Range'] = st.sidebar.selectbox("Vehicle Cost Range", vcost_opts, index=get_selectbox_index("Vehicl_Cost_Range", vcost_opts))
 
-user_input['Re_Quote'] = st.sidebar.selectbox("Re_Quote", ["No", "Yes"], index=get_selectbox_index("Re_Quote", ["No", "Yes"]))
+user_input['Re_Quote'] = st.sidebar.selectbox("Re-Quote", ["No", "Yes"], index=get_selectbox_index("Re_Quote", ["No", "Yes"]))
 
 API_URL = "http://127.0.0.1:8000/api/v1/evaluate_quote"
 

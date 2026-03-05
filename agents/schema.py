@@ -8,14 +8,14 @@ class QuoteInput(BaseModel):
     Q_Valid_DT: str = "2023/12/31"
     Policy_Bind_DT: str = "2019/10/02"
     Region: str = "A"
-    Agent_Num: float = 10.0
+    Agent_Num: int = 10
     Policy_Type: str = "Truck"
-    HH_Vehicles: float = 1.0
-    HH_Drivers: float = 1.0
+    HH_Vehicles: int = 1
+    HH_Drivers: int = 1
     Driver_Age: float = 30.0
-    Driving_Exp: float = 5.0
-    Prev_Accidents: float = 0.0
-    Prev_Citations: float = 0.0
+    Driving_Exp: int = 5
+    Prev_Accidents: int = 0
+    Prev_Citations: int = 0
     Gender: str = "Male"
     Marital_Status: str = "Married"
     Education: str = "Bachelors"
@@ -25,7 +25,7 @@ class QuoteInput(BaseModel):
     Annual_Miles_Range: str = "<= 7.5 K"
     Vehicl_Cost_Range: str = "10 K - 20 K"
     Re_Quote: str = "No"
-    Quoted_Premium: float = 1000.0
+    Quoted_Premium: int = 1000
 
 # --- Agent 1: Risk Profiler ---
 class RiskOutput(BaseModel):
