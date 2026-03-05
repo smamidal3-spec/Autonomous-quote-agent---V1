@@ -22,11 +22,11 @@ st.markdown("Processing Insurance Quotes automatically using a 4-Agent Pipeline.
 @st.cache_resource
 def load_assets():
     try:
-        rf = joblib.load("quote_agents/models/risk_profiler_rf.pkl")
-        xgb = joblib.load("quote_agents/models/conversion_predictor_xgb.pkl")
-        encoders = joblib.load("quote_agents/models/categorical_encoders.pkl")
-        risk_encoder = joblib.load("quote_agents/models/risk_encoder.pkl")
-        feature_cols = joblib.load("quote_agents/models/feature_columns.pkl")
+        rf = joblib.load("models/risk_profiler_rf.pkl")
+        xgb = joblib.load("models/conversion_predictor_xgb.pkl")
+        encoders = joblib.load("models/categorical_encoders.pkl")
+        risk_encoder = joblib.load("models/risk_encoder.pkl")
+        feature_cols = joblib.load("models/feature_columns.pkl")
         return rf, xgb, encoders, risk_encoder, feature_cols
     except Exception as e:
         return None, None, None, None, None
